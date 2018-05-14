@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OBSBasicStartPage</class>
+ <widget class="QMainWindow" name="OBSBasicStartPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>720</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+   <property name="windowIcon">
+     <iconset resource="obs.qrc">
+       <normaloff>:/res/icons/icon.png</normaloff>:/res/icons/icon.png
+     </iconset>
+   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget { font-family:&quot;微软雅黑&quot;; }
+      QWidget#centralwidget { background-color:#2c2e34; border: 1px solid
+      #999999; border-radius: 3px; }
+      
+      QWidget#content_widget {background-color:#2c2e34; border: 1px solid
+      #999999; border-radius: 3px;}
+      
+      QPushButton#live_data_btn {
+      background-image: url(:/res/icons/review-button.png);
+      background-repeat: no-repeat; background-color: transparent;
+      background-position:center; }
+      
+      QPushButton#live_platform_btn {
+      background-image: url(:/res/icons/back-button.png); background-repeat:
+      no-repeat; background-color: transparent; background-position:center; }
+      
+      QPushButton#new_live_btn { background-image:
+      url(:/res/icons/create-button.png); background-repeat: no-repeat;
+      background-color: transparent; background-position:center; }
+      
+      QLabel#label { background-image: url(:/res/icons/end-text.png);
+      background-repeat: no-repeat; background-color: transparent; color: white; }
+      
+      QLabel#title_label {background-image: url(:/res/icons/logo.png);
+      background-repeat:no-repeat; background-color: transparent;
+      background-position:center; }
+      </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="titlewidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>720</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>720</width>
+      <height>80</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>80</height>
+     </size>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1271</width>
+       <height>92</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="title_label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="live_platform_btn">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="content_widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>82</y>
+      <width>720</width>
+      <height>400</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <widget class="QPushButton" name="new_live_btn">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>200</y>
+       <width>200</width>
+       <height>60</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>60</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>60</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="line_label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>80</y>
+      <width>720</width>
+      <height>2</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>2</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>2</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:red</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>720</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

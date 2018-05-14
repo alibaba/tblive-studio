@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TBLiveStudioLoginWindowClass</class>
+ <widget class="QMainWindow" name="TBLiveStudioLoginWindowClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1125</width>
+    <height>767</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>167777</width>
+    <height>167777</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>TBLiveStudioLoginWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

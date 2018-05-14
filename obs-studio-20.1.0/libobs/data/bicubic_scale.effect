@@ -1,0 +1,169 @@
+/*
+ * bicubic sharper (better for downscaling)
+ * note - this shader is adapted from the GPL bsnes shader, very good stuff
+ * there.
+ */
+
+uniform float4x4 ViewProj;
+uniform texture2d image;
+uniform float4x4 color_matrix;
+uniform float3 color_range_min = {0.0, 0.0, 0.0};
+uniform float3 color_range_max = {1.0, 1.0, 1.0};
+uniform float2 base_dimension_i;
+uniform float undistort_factor = 1.0;
+
+sampler_state textureSampler {
+	Filter    = Linear;
+	AddressU  = Clamp;
+	AddressV  = Clamp;
+};
+
+struct VertData {
+	float4 pos : POSITION;
+	float2 uv  : TEXCOORD0;
+};
+
+VertData VSDefault(VertData v_in)
+{
+	VertData vert_out;
+	vert_out.pos = mul(float4(v_in.pos.xyz, 1.0), ViewProj);
+	vert_out.uv  = v_in.uv;
+	return vert_out;
+}
+
+float weight(float x)
+{
+	float ax = abs(x);
+
+	/* Sharper version.  May look better in some cases. */
+	const float B = 0.0;
+	const float C = 0.75;
+
+	if (ax < 1.0)
+		return (pow(x, 2.0) *
+			((12.0 - 9.0 * B - 6.0 * C) * ax +
+				(-18.0 + 12.0 * B + 6.0 * C)) +
+				(6.0 - 2.0 * B))
+			/ 6.0;
+	else if ((ax >= 1.0) && (ax < 2.0))
+		return (pow(x, 2.0) *
+			((-B - 6.0 * C) * ax + (6.0 * B + 30.0 * C)) +
+				(-12.0 * B - 48.0 * C) * ax +
+				(8.0 * B + 24.0 * C))
+			/ 6.0;
+	else
+		return 0.0;
+}
+
+float4 weight4(float x)
+{
+	return float4(
+		weight(x - 2.0),
+		weight(x - 1.0),
+		weight(x),
+		weight(x + 1.0));
+}
+
+float AspectUndistortX(float x, float a)
+{
+	// The higher the power, the longer the linear part will be.
+	return (1.0 - a) * (x * x * x * x * x) + a * x;
+}
+
+float AspectUndistortU(float u)
+{
+	// Normalize texture coord to -1.0 to 1.0 range, and back.
+	return AspectUndistortX((u - 0.5) * 2.0, undistort_factor) * 0.5 + 0.5;
+}
+
+float2 pixel_coord(float xpos, float ypos)
+{
+	return float2(AspectUndistortU(xpos), ypos);
+}
+
+float4 pixel(float xpos, float ypos, bool undistort)
+{
+	if (undistort)
+		return image.Sample(textureSampler, pixel_coord(xpos, ypos));
+	else
+		return image.Sample(textureSampler, float2(xpos, ypos));
+}
+
+float4 get_line(float ypos, float4 xpos, float4 linetaps, bool undistort)
+{
+	return
+		pixel(xpos.r, ypos, undistort) * linetaps.r +
+		pixel(xpos.g, ypos, undistort) * linetaps.g +
+		pixel(xpos.b, ypos, undistort) * linetaps.b +
+		pixel(xpos.a, ypos, undistort) * linetaps.a;
+}
+
+float4 DrawBicubic(VertData v_in, bool undistort)
+{
+	float2 stepxy = base_dimension_i;
+	float2 pos = v_in.uv + stepxy * 0.5;
+	float2 f = frac(pos / stepxy);
+
+	float4 rowtaps = weight4(1.0 - f.x);
+	float4 coltaps = weight4(1.0 - f.y);
+
+	/* make sure all taps added together is exactly 1.0, otherwise some
+ 	 * (very small) distortion can occur */
+	rowtaps /= rowtaps.r + rowtaps.g + rowtaps.b + rowtaps.a;
+	coltaps /= coltaps.r + coltaps.g + coltaps.b + coltaps.a;
+
+	float2 xystart = (-1.5 - f) * stepxy + pos;
+	float4 xpos = float4(
+		xystart.x,
+		xystart.x + stepxy.x,
+		xystart.x + stepxy.x * 2.0,
+		xystart.x + stepxy.x * 3.0
+	);
+
+	return
+		get_line(xystart.y                 , xpos, rowtaps, undistort) * coltaps.r +
+		get_line(xystart.y + stepxy.y      , xpos, rowtaps, undistort) * coltaps.g +
+		get_line(xystart.y + stepxy.y * 2.0, xpos, rowtaps, undistort) * coltaps.b +
+		get_line(xystart.y + stepxy.y * 3.0, xpos, rowtaps, undistort) * coltaps.a;
+}
+
+float4 PSDrawBicubicRGBA(VertData v_in, bool undistort) : TARGET
+{
+	return DrawBicubic(v_in, undistort);
+}
+
+float4 PSDrawBicubicMatrix(VertData v_in) : TARGET
+{
+	float4 rgba = DrawBicubic(v_in, false);
+	float4 yuv;
+
+	yuv.xyz = clamp(rgba.xyz, color_range_min, color_range_max);
+	return saturate(mul(float4(yuv.xyz, 1.0), color_matrix));
+}
+
+technique Draw
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader  = PSDrawBicubicRGBA(v_in, false);
+	}
+}
+
+technique DrawUndistort
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader  = PSDrawBicubicRGBA(v_in, true);
+	}
+}
+
+technique DrawMatrix
+{
+	pass
+	{
+		vertex_shader = VSDefault(v_in);
+		pixel_shader  = PSDrawBicubicMatrix(v_in);
+	}
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIconFile</key>
+	<string>OBS.icns</string>
+	<key>CFBundleName</key>
+	<string>淘宝直播</string>
+	<key>CFBundleGetInfoString</key>
+	<string>OBS - Free and Open Source Streaming/Recording Software</string>
+	<key>CFBundleExecutable</key>
+	<string>TBLiveStudio</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.obsproject.obs-studio</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.8.5</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>LSAppNapIsDisabled</key>
+	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tblivestudio</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>com.tblivestudio</string>
+		</dict>
+	</array>
+</dict>
+</plist>
